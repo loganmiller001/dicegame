@@ -131,7 +131,7 @@ function characterGenerator(){
 }
 alert("You encounter a monster");
 
-function monsterAttack(n){
+function monsterAttackRoll(n){
 	let attack = rollSingleDice(20);
 	console.log(attack);
 		return attack;
@@ -163,7 +163,7 @@ function monsterInitiative(n){
 
 function monsterGenerator(){
 	let enemyHealth = monsterHp();
-	let enemyAttack = monsterAttack();
+	let enemyAttack = monsterAttackRoll();
 	let enemyDamage = monsterDamage();
 	let enemyArmor = monsterArmor();
 	let enemyInitiative = monsterInitiative();
@@ -202,7 +202,7 @@ function runGame(){
 				
 		}
 	}
-	// 
+	alert("Enemy Defeated");
 }
 
 function playerAttack(player, monster){
