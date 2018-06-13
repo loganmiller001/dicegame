@@ -94,8 +94,9 @@ function characterGenerator(){
 	let characterName = playerName();
 	let characterClass = playerClass();
 	let characterRace = playerRace();
-	let health = rollHp();
-	let toHit = attackRoll()
+	let playerHealth = rollHp();
+	let toHit = attackRoll();
+	let playerDamage = rollDamage();
 	let ac = rollAc();
 	let attributeStr = rollStrength();
 	let attributeDex = rollDexterity();
@@ -107,7 +108,8 @@ function characterGenerator(){
 	console.log("Your name is: " + characterName);
 	console.log("Your class is: " + characterClass);
 	console.log("Your race is: " + characterRace);
-	console.log("Your max health points: " + health);
+	console.log("Your max health points: " + playerHealth);
+	console.log("Your damage roll was: " + playerDamage);
 	console.log("Your hit roll was: " + toHit); 
 	console.log("Your armor class is: " + ac);
 	console.log("You Strength is: " + attributeStr);
@@ -118,6 +120,14 @@ function characterGenerator(){
 	console.log("Your Charisma is: " + attributeChr);
 	console.log("Your initiative is: " + playerInitiative);
 
+	let player = {
+		health: playerHealth,
+		attack: toHit,
+		damage: playerDamage,
+		armor: ac,
+		initiative: playerInitiative,
+	};
+	return player;
 }
 alert("You encounter a monster");
 
@@ -162,22 +172,58 @@ function monsterGenerator(){
 	console.log("Enemy damage roll is: " + enemyDamage);
 	console.log("Enemy armor class is: " + enemyArmor);
 	console.log("Enemy initiative is: " + enemyInitiative);
+
+	let monster = {
+		health: enemyHealth,
+		attack: enemyAttack,
+		damage: enemyHealth,
+		armor: enemyArmor,
+		initiative: enemyInitiative
+	};
+
+	return monster;
 }
 
 function runGame(){
 	let player = characterGenerator();
 	let monster = monsterGenerator();
-	
+
+	while(player.health > 0 && monster.health > 0){
+
+		if (player.initiative > monster.initiative){
+			alert("Player attacks")
+			monster.health = playerAttack(player, monster);
+			console.log(monster.health);
+		}
+		else{
+			alert("Monster attacks")
+			player.health = monsterAttack(player, monster);
+			console.log(player.health);
+				
+		}
+	}
+	// 
 }
-// function runGame(){
-	//let player = characterGenerator();
-	//let monster = monsterGenerator();
-	 //player.health -=monsterAttack(); 
-// }
-// let character = object{
-	// character.health = rollHp(),
-// }
-// 
+
+function playerAttack(player, monster){
+	if (player.attack > monster.armor){
+		monster.health -= player.damage;
+	}
+	else{
+		alert("Player misses!")
+	}
+	return monster.health;
+}
+
+function monsterAttack(player, monster){
+	if (monster.attack > player.armor){
+		player.health -= monster.damage;
+	}
+	else{
+		alert("Monster misses!")
+	}
+	return player.health;
+}   
 
 runGame()
 
